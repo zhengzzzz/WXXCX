@@ -87,7 +87,7 @@ App({
         emphasis_keyword: emphasis_keyword //小程序："keyword1.DATA" 模板需要放大的关键词，不填则默认无放大
       },
       success: (res) => {
-        //console.log(res.data);
+        console.log(res.data+"这个是APP。js");
       }
     })
   },
@@ -125,8 +125,8 @@ App({
         }
 
 
-        console.log('goods----------------------')
-        console.log(goods)
+      //  console.log('goods----------------------')
+      //  console.log(goods)
 
         var goodsName = []; //获取全部商品名称，做为智能联想输入库
         for (var i = 0; i < goods.length; i++) {
@@ -143,8 +143,8 @@ App({
           
         }
         that.globalData.goods = goods
-        console.log('getGoodsReputation----------------------')
-        console.log(that.globalData.goods)
+      //  console.log('getGoodsReputation----------------------')
+        //console.log(that.globalData.goods)
 
 
         wx.request({
@@ -177,17 +177,17 @@ App({
                 that.globalData.activeCategoryId = categories[i].id  
               }
               goodsList.push({ 'id': id, 'key': key, 'name': name, 'type': typeStr, 'goods': goodsTemp })
-              console.log("你好," + categories[i].name)
+              //console.log("你好," + categories[i].name)
             }
 
             that.globalData.goodsList = goodsList
             that.globalData.onLoadStatus = true
-            console.log('categories:',categories)
+           // console.log('categories:',categories)
             //that.globalData.activeCategoryId = categories[0].id   改为第一个不为null的类
             
 
-            console.log('getGoodsList----------------------')
-            console.log(that.globalData.goodsList)
+         //   console.log('getGoodsList----------------------')
+           // console.log(that.globalData.goodsList)
           },
           fail: function () {
             that.globalData.onLoadStatus = false

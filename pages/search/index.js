@@ -94,7 +94,7 @@ Page({
                 }
               })
             }
-            console.log('getGoodsReputation----------------------')
+          //  console.log('getGoodsReputation----------------------')
             that.setData({
               goodsNum: goods.length
             })

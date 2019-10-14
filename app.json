@@ -21,6 +21,7 @@
     "pages/kanjia/index",
     "pages/authorize/index",
     "pages/ucenter/feedback/feedback",
+    "pages/ucenter/footprint/footprint",
     "pages/ucenter/location/location"
   ],
   "window": {

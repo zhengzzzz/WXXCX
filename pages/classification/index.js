@@ -206,8 +206,8 @@ Page(Object.assign({},{
         }
 
 
-        console.log('getGoods----------------------')
-        console.log(goods)
+        //console.log('getGoods----------------------')
+       // console.log(goods)
 
         var page = that.data.page;
         var pageSize = that.data.pageSize;
@@ -219,8 +219,8 @@ Page(Object.assign({},{
         that.setData({
           goods: goods,
         });
-        console.log('getGoodsReputation----------------------')
-        console.log(goods)
+      //  console.log('getGoodsReputation----------------------')
+      //  console.log(goods)
 
 
         wx.request({
@@ -248,7 +248,7 @@ Page(Object.assign({},{
                 }
               }
               goodsList.push({ 'id': id, 'key': key, 'name': name, 'goods': goodsTemp })
-              console.log("你好," + categories[i].name)
+             // console.log("你好," + categories[i].name)
             }
 
             console.log(goodsList, 'womendeshijie')

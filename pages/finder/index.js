@@ -137,8 +137,8 @@ Page({
           goods[i].starscore = Math.ceil(goods[i].starscore / 0.5) * 0.5
           goods[i].starpic = starscore.picStr(goods[i].starscore)
         }
-        console.log('getGoodsReputation----------------------')
-        console.log(goods)
+       // console.log('getGoodsReputation----------------------')
+      //  console.log(goods)
 
       }
     })

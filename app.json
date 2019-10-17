@@ -22,6 +22,7 @@
     "pages/authorize/index",
     "pages/ucenter/feedback/feedback",
     "pages/ucenter/footprint/footprint",
+    "templates/canvas-clock/index",
     "pages/ucenter/location/location"
   ],
   "window": {

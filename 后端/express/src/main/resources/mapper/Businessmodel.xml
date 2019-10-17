@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ikats.express.dao.BusinessmodelDao">
+	<select id="list" resultType="com.ikats.express.model.Businessmodel">
+		select * from businessmodel bu
+		left join  user ON bu.ClientCode=user.clientcode
+		WHERE (user.userid = #{userid}
+		or bu.ClientCode is null or trim(bu.ClientCode)='') AND bu.Status = '1'
+	</select>
+
+
+
+
+	<sql id="where">
+		<where>
+			<if test="params.businessmodelname != null and params.businessmodelname != ''">
+				and t.BusinessModelName like concat('%', #{params.businessmodelname}, '%')
+			</if>
+			<if test="params.businessmodelcode != null and params.businessmodelcode != ''">
+				and t.businessmodelcode like concat('%', #{params.businessmodelcode}, '%')
+			</if>
+			<if test="params.status != null and params.status != ''">
+				and t.status = #{params.status}
+			</if>
+			<if test="params.userid != null and params.userid != ''">
+				and ( u.userid = #{params.userid} or t.ClientCode is null or trim(t.ClientCode)='')
+			</if>
+		</where>
+	</sql>
+
+
+	<select id="count" resultType="int">
+		select count(1) from businessmodel t LEFT JOIN user u on t.ClientCode = u.ClientCode
+		<include refid="where" />
+	</select>
+
+	<select id="selectByBusinessmodelcode"  resultType="com.ikats.express.model.Businessmodel">
+	SELECT bl.* from businessmodel bl left join user u on  bl.ClientCode = u.ClientCode WHERE   bl.Status = '1' AND
+	 bl.BusinessModelCode = #{params.businessModelCode} AND (u.userid = #{params.userid} OR  bl.ClientCode IS NULL OR trim( bl.ClientCode ) = '')
+	</select>
+
+
+
+
+	<select id="selectByKey" resultType="com.ikats.express.model.Businessmodel">
+		select b.* from businessmodel b
+		where 1=1  AND b.Status = '1'
+		<if test ="businessmodelcode !=null">
+			AND b.BusinessModelCode =  #{businessmodelcode}
+		</if>
+	</select>
+
+
+	<select id="selectById" resultType="com.ikats.express.model.Businessmodel">
+		select * from businessmodel
+		where 1=1
+		<if test ="entityid !=null">
+			AND EntityId = #{entityid,jdbcType=INTEGER}
+		</if>
+	</select>
+
+
+
+
+	<resultMap id="BaseResultMap" type="com.ikats.express.model.Businessmodel">
+		<id column="EntityId" jdbcType="INTEGER" property="entityid" />
+		<id column="BusinessModelCode" jdbcType="VARCHAR" property="businessmodelcode" />
+		<result column="ClientCode" jdbcType="VARCHAR" property="clientcode" />
+		<result column="BusinessModelName" jdbcType="VARCHAR" property="businessmodelname" />
+		<result column="BusinessType" jdbcType="VARCHAR" property="businesstype" />
+		<result column="ClearPortCode" jdbcType="VARCHAR" property="clearportcode" />
+		<result column="ClientExpressCode" jdbcType="VARCHAR" property="clientExpressCode" />
+		<result column="ieFlag" jdbcType="VARCHAR" property="ieflag" />
+		<result column="PurchaseLogistics" jdbcType="VARCHAR" property="purchaselogistics" />
+		<result column="StockCode" jdbcType="VARCHAR" property="stockcode" />
+		<result column="MainlineCode" jdbcType="VARCHAR" property="mainlinecode" />
+		<result column="LogisticsCompanyCode" jdbcType="VARCHAR" property="logisticscompanycode" />
+		<result column="SourceCountryCode" jdbcType="VARCHAR" property="sourcecountrycode" />
+		<result column="DestinationCountryCode" jdbcType="VARCHAR" property="destinationcountrycode" />
+		<result column="FreightChargeCurrency" jdbcType="VARCHAR" property="freightchargecurrency" />
+		<result column="CODChargeCurrency" jdbcType="VARCHAR" property="codchargecurrency" />
+		<result column="Status" jdbcType="INTEGER" property="status" />
+		<result column="CreatorCode" jdbcType="VARCHAR" property="creatorcode" />
+		<result column="CreateTime" jdbcType="TIMESTAMP" property="createtime" />
+		<result column="ModifierCode" jdbcType="VARCHAR" property="modifiercode" />
+		<result column="ModifiedTime" jdbcType="TIMESTAMP" property="modifiedtime" />
+	</resultMap>
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria" separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" prefixOverrides="and" suffix=")">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+
+	<sql id="Base_Column_List">
+		EntityId, BusinessModelCode, ClientCode, BusinessModelName, BusinessType, ClearPortCode,
+		ClientExpressCode, ieFlag, PurchaseLogistics, StockCode, MainlineCode, LogisticsCompanyCode,
+		SourceCountryCode, DestinationCountryCode, FreightChargeCurrency, CODChargeCurrency,
+		`Status`, CreatorCode, CreateTime, ModifierCode, ModifiedTime
+	</sql>
+
+
+	<insert id="insert1" parameterType="com.ikats.express.model.Businessmodel">
+		insert into businessmodel (EntityId, BusinessModelCode, ClientCode,
+		BusinessModelName, BusinessType, ClearPortCode,
+		ClientExpressCode, ieFlag, PurchaseLogistics,
+		StockCode, MainlineCode, LogisticsCompanyCode,
+		SourceCountryCode, DestinationCountryCode,
+		FreightChargeCurrency, CODChargeCurrency,
+		`Status`, CreatorCode, CreateTime,
+		ModifierCode, ModifiedTime,stationDeparture,stationArrived)
+		values (#{entityid,jdbcType=INTEGER}, #{businessmodelcode,jdbcType=VARCHAR}, #{clientcode,jdbcType=VARCHAR},
+		#{businessmodelname,jdbcType=VARCHAR}, #{businesstype,jdbcType=VARCHAR}, #{clearportcode,jdbcType=VARCHAR},
+		#{clientExpressCode,jdbcType=VARCHAR}, #{ieflag,jdbcType=VARCHAR}, #{purchaselogistics,jdbcType=VARCHAR},
+		#{stockcode,jdbcType=VARCHAR}, #{mainlinecode,jdbcType=VARCHAR}, #{logisticscompanycode,jdbcType=VARCHAR},
+		#{sourcecountrycode,jdbcType=VARCHAR}, #{destinationcountrycode,jdbcType=VARCHAR},
+		#{freightchargecurrency,jdbcType=VARCHAR}, #{codchargecurrency,jdbcType=VARCHAR},
+		#{status,jdbcType=INTEGER}, #{creatorcode,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP},
+		#{modifiercode,jdbcType=VARCHAR}, #{modifiedtime,jdbcType=TIMESTAMP},#{stationDeparture,jdbcType=VARCHAR},#{stationArrived,jdbcType=VARCHAR})
+	</insert>
+
+
+
+
+
+
+
+	<update id="update1" parameterType="com.ikats.express.model.Businessmodel">
+		update businessmodel
+		<set>
+			<if test="clientcode != null">
+				ClientCode = #{clientcode,jdbcType=VARCHAR},
+			</if>
+			<if test="businessmodelname != null">
+				BusinessModelName = #{businessmodelname,jdbcType=VARCHAR},
+			</if>
+			<if test="businesstype != null">
+				BusinessType = #{businesstype,jdbcType=VARCHAR},
+			</if>
+			<if test="clearportcode != null">
+				ClearPortCode = #{clearportcode,jdbcType=VARCHAR},
+			</if>
+			<if test="clientExpressCode != null">
+				ClientExpressCode = #{clientExpressCode,jdbcType=VARCHAR},
+			</if>
+			<if test="ieflag != null">
+				ieFlag = #{ieflag,jdbcType=VARCHAR},
+			</if>
+			<if test="purchaselogistics != null">
+				PurchaseLogistics = #{purchaselogistics,jdbcType=VARCHAR},
+			</if>
+			<if test="stockcode != null">
+				StockCode = #{stockcode,jdbcType=VARCHAR},
+			</if>
+			<if test="mainlinecode != null">
+				MainlineCode = #{mainlinecode,jdbcType=VARCHAR},
+			</if>
+			<if test="logisticscompanycode != null">
+				LogisticsCompanyCode = #{logisticscompanycode,jdbcType=VARCHAR},
+			</if>
+			<if test="sourcecountrycode != null">
+				SourceCountryCode = #{sourcecountrycode,jdbcType=VARCHAR},
+			</if>
+			<if test="destinationcountrycode != null">
+				DestinationCountryCode = #{destinationcountrycode,jdbcType=VARCHAR},
+			</if>
+			<if test="freightchargecurrency != null">
+				FreightChargeCurrency = #{freightchargecurrency,jdbcType=VARCHAR},
+			</if>
+			<if test="codchargecurrency != null">
+				CODChargeCurrency = #{codchargecurrency,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				`Status` = #{status,jdbcType=INTEGER},
+			</if>
+			<if test="creatorcode != null">
+				CreatorCode = #{creatorcode,jdbcType=VARCHAR},
+			</if>
+			<if test="createtime != null">
+				CreateTime = #{createtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="modifiercode != null">
+				ModifierCode = #{modifiercode,jdbcType=VARCHAR},
+			</if>
+			<if test="modifiedtime != null">
+				ModifiedTime = #{modifiedtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="stationDeparture != null">
+				stationDeparture = #{stationDeparture,jdbcType=TIMESTAMP},
+			</if>
+			<if test="stationArrived != null">
+				stationArrived = #{stationArrived,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where EntityId = #{entityid,jdbcType=INTEGER}
+	</update>
+
+
+
+	<select id="getlist" resultType="com.ikats.express.model.Businessmodel">
+		select * from businessmodel t LEFT JOIN user u on t.ClientCode = u.ClientCode
+		where u.userid = #{userid} AND t.Status = '1'
+	</select>
+
+
+</mapper>
